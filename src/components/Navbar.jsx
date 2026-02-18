@@ -50,7 +50,7 @@ const Navbar = ({ isOnBanner = false }) => {
           <NavLink to="/" className={currentClass} onClick={onLinkClick}>หน้าแรก</NavLink>
           <NavLink to="/trips" className={currentClass} onClick={onLinkClick}>ทริปต่างๆ</NavLink>
           <NavLink to="/guides" className={currentClass} onClick={onLinkClick}>ไกด์</NavLink>
-          <NavLink to="/tourist-bookings" className={currentClass} onClick={onLinkClick}>การจองของฉัน</NavLink>
+          <NavLink to="/bookings/my-bookings" className={currentClass} onClick={onLinkClick}>การจองของฉัน</NavLink>
           <NavLink to={`/tourist/${userId}`} className={currentClass} onClick={onLinkClick}>โปรไฟล์</NavLink>
           <NavLink to="/contact" className={currentClass} onClick={onLinkClick}>ติดต่อ</NavLink>
         </>

@@ -25,7 +25,7 @@ import AdminGuides from "./pages/Admin/AdminGuides";
 import AdminEditTrip from "./pages/Admin/AdminEditTrip";
 import AdminTourists from "./pages/Admin/AdminTourists";
 import TouristBookings from "./pages/Tourist/TouristBookings";
-import GuideBookings from "./pages/Guides/GuideBookings";
+import TouristProfile from "./pages/Tourist/TouristProfile";
 
 const App = () => {
   return (
@@ -59,6 +59,7 @@ const App = () => {
                 <Route path="/admin/tourists" element={<AdminTourists />} />
                 <Route path="/tourist-bookings" element={<TouristBookings />} />
                 <Route path="/guide-bookings" element={<GuideBookings />} />
+                <Route path="/bookings/my-bookings" element={<GuideBookings />} />
               </Routes>
               <Footer />
             </Layout>
