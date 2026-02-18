@@ -25,7 +25,7 @@ const AdminEditTrip = () => {
   const fetchTrip = async () => {
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/trips/${id}`
+        `${import.meta.env.VITE_API_URL}/trips/${id}`,
       );
       const trip = res.data.data;
 
@@ -67,16 +67,12 @@ const AdminEditTrip = () => {
         formData.append("picture", picture);
       }
 
-      await axios.put(
-        `${import.meta.env.VITE_API_URL}/trips/${id}`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      await axios.put(`${import.meta.env.VITE_API_URL}/trips/${id}`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       alert("แก้ไขสำเร็จ");
       navigate("/admin/trips");
@@ -87,8 +83,8 @@ const AdminEditTrip = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-slate-50">
-      <div className="w-full max-w-3xl space-y-6">
+    <div className="w-full px-6 py-10 bg-slate-50">
+      <div className="max-w-4xl mx-auto space-y-6">
         {/* Header */}
         <div>
           <h1 className="text-3xl font-black text-[#37101A] uppercase tracking-tight">
