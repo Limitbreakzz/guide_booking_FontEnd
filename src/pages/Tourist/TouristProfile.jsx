@@ -82,7 +82,7 @@ const TouristProfile = () => {
               <img
                 src={
                   tourist.picture
-                    ? `http://localhost:4000/images/${tourist.picture}`
+                    ? `${import.meta.env.VITE_API_URL}/images/${tourist.picture}`
                     : "https://cdn-icons-png.flaticon.com/512/847/847969.png"
                 }
                 alt={tourist.name}

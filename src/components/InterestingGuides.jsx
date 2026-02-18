@@ -15,7 +15,7 @@ const InterestingGuides = () => {
     try {
       setLoading(true);
       // เรียงลำดับจาก rating มากไปน้อย (desc)
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}0/guides`, {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/guides`, {
         params: { sort: "rating:desc", limit: 3 }
       });
       if (res.data && res.data.data) {
@@ -58,7 +58,7 @@ const InterestingGuides = () => {
             <div className="w-[40%] h-full bg-gray-100 overflow-hidden flex-shrink-0">
               {guide.picture ? (
                 <img
-                  src={`http://localhost:4000/images/${guide.picture}`}
+                  src={`${import.meta.env.VITE_API_URL}/images/${guide.picture}`}
                   alt={guide.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                 />

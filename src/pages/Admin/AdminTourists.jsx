@@ -14,7 +14,7 @@ const AdminTourists = () => {
 
   const fetchTourists = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/tourists");
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/tourists`);
       setTourists(res.data.data);
     } catch (err) {
       console.error("Error fetching tourists:", err);
@@ -25,7 +25,7 @@ const AdminTourists = () => {
     if (!window.confirm("ยืนยันการลบนักท่องเที่ยวนี้?")) return;
 
     try {
-      await axios.delete(`http://localhost:4000/tourists/${id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/tourists/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchTourists();

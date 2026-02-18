@@ -53,7 +53,7 @@ const TripDetail = () => {
         <div className="h-[350px] bg-gray-100 relative">
           {trip.picture ? (
             <img
-              src={`http://localhost:4000/images/${trip.picture}`}
+              src={`${import.meta.env.VITE_API_URL}/images/${trip.picture}`}
               alt={trip.name}
               className="w-full h-full object-cover"
               onError={(e) => {

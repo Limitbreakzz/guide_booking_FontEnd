@@ -61,7 +61,7 @@ const TopTrips = () => {
                     >
                         {trip.picture ? (
                             <img
-                                src={`http://localhost:4000/images/${trip.picture}`}
+                                src={`${import.meta.env.VITE_API_URL}/images/${trip.picture}`}
                                 alt={trip.name}
                                 className="w-full h-64 object-cover transform group-hover:scale-110 transition duration-500"
                             />

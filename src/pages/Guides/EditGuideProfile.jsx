@@ -38,7 +38,7 @@ const EditGuideProfile = () => {
           picture: null,
           status: Boolean(data.status),
         });
-        if (data.picture) setPreview(`http://localhost:4000/images/${data.picture}`);
+        if (data.picture) setPreview(`${import.meta.env.VITE_API_URL}/images/${data.picture}`);
       } catch {
         alert("โหลดข้อมูลไม่สำเร็จ");
       } finally {
@@ -66,7 +66,7 @@ const EditGuideProfile = () => {
         formData.append(key, form[key]);
       });
 
-      await axios.put(`http://localhost:4000/guides/${id}`, formData, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/guides/${id}`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
       navigate(`/guides/${id}`);

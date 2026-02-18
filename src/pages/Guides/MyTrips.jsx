@@ -32,7 +32,7 @@ const MyTrips = () => {
   const handleDelete = async (id) => {
     if (window.confirm("คุณแน่ใจหรือไม่ว่าต้องการลบทริปนี้?")) {
       try {
-        await axios.delete(`http://localhost:4000/trips/${id}`, {
+        await axios.delete(`${import.meta.env.VITE_API_URL}/trips/${id}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         });
         setTrips(trips.filter(t => t.id !== id));
@@ -90,7 +90,7 @@ const MyTrips = () => {
                   <div className="w-full md:w-40 h-28 rounded-xl overflow-hidden bg-gray-100 shrink-0">
                     {trip.picture ? (
                       <img
-                        src={`http://localhost:4000/images/${trip.picture}`}
+                        src={`${import.meta.env.VITE_API_URL}/images/${trip.picture}`}
                         alt={trip.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
                       />

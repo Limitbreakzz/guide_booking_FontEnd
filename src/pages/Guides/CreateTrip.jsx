@@ -52,7 +52,7 @@ const CreateTrip = () => {
       formData.append("guideId", localStorage.getItem("userId"));
       if (form.picture) formData.append("picture", form.picture);
 
-      await axios.post("http://localhost:4000/trips", formData, {
+      await axios.post(`${import.meta.env.VITE_API_URL}/trips`, formData, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 

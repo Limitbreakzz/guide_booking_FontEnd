@@ -101,7 +101,7 @@ const Trips = () => {
                   <div className="w-full md:w-[30%] h-56 md:h-full relative overflow-hidden bg-gray-100 flex-shrink-0">
                     {trip.picture ? (
                       <img
-                        src={`http://localhost:4000/images/${trip.picture}`}
+                        src={`${import.meta.env.VITE_API_URL}/images/${trip.picture}`}
                         alt={trip.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
                       />

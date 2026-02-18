@@ -65,7 +65,7 @@ const EditTrip = () => {
       }
 
       await axios.put(
-        `http://localhost:4000/trips/${id}`,
+        `${import.meta.env.VITE_API_URL}/trips/${id}`,
         formData,
         {
           headers: {
@@ -122,7 +122,7 @@ const EditTrip = () => {
                       trip.picture
                         ? URL.createObjectURL(trip.picture)
                         : trip.pictureUrl
-                          ? `http://localhost:4000/images/${trip.pictureUrl}`
+                          ? `${import.meta.env.VITE_API_URL}/images/${trip.pictureUrl}`
                           : "https://via.placeholder.com/600x400"
                     }
                     alt="trip preview"

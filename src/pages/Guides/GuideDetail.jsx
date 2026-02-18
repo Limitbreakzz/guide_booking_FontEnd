@@ -32,7 +32,7 @@ const GuideDetail = () => {
       setGuide(guideRes.data.data);
       if (!token) return;
       const bookingRes = await axios.get(
-        `http://localhost:4000/bookings?guideId=${id}`,
+        `${import.meta.env.VITE_API_URL}/bookings?guideId=${id}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       
@@ -96,7 +96,7 @@ const GuideDetail = () => {
           <div className="relative h-28 bg-[#37101A]">
             <div className="absolute -bottom-12 left-1/2 -translate-x-1/2">
               <img
-                src={guide.picture ? `http://localhost:4000/images/${guide.picture}` : "https://cdn-icons-png.flaticon.com/512/847/847969.png"}
+                src={guide.picture ? `${import.meta.env.VITE_API_URL}/images/${guide.picture}` : "https://cdn-icons-png.flaticon.com/512/847/847969.png"}
                 alt={guide.name}
                 className="w-32 h-32 rounded-3xl object-cover border-4 border-white shadow-md bg-white"
               />

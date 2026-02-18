@@ -24,7 +24,7 @@ const AdminEditTrip = () => {
 
   const fetchTrip = async () => {
     try {
-      const res = await axios.get(`http://localhost:4000/trips/${id}`);
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/trips/${id}`);
       const trip = res.data.data;
 
       setForm({
@@ -66,7 +66,7 @@ const AdminEditTrip = () => {
       }
 
       await axios.put(
-        `http://localhost:4000/trips/${id}`,
+        `${import.meta.env.VITE_API_URL}/trips/${id}`,
         formData,
         {
           headers: {

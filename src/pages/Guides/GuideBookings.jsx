@@ -40,7 +40,7 @@ const GuideBookings = () => {
     if (!window.confirm(`ต้องการ${actionText} ใช่หรือไม่?`)) return;
     try {
       await axios.put(
-        `http://localhost:4000/bookings/${id}`,
+        `${import.meta.env.VITE_API_URL}/bookings/${id}`,
         { status },
         { headers: { Authorization: `Bearer ${token}` } }
       );

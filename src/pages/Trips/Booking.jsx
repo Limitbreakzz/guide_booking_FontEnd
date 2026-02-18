@@ -39,7 +39,7 @@ const Booking = () => {
       setLoading(true);
 
       await axios.post(
-        "http://localhost:4000/bookings",
+        `${import.meta.env.VITE_API_URL}/bookings`,
         {
           tripId: Number(tripId),
           datetime,

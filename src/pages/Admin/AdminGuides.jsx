@@ -14,7 +14,7 @@ const AdminGuides = () => {
 
   const fetchGuides = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/guides");
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/guides`);
       setGuides(res.data.data);
     } catch (err) {
       console.error(err);
@@ -25,7 +25,7 @@ const AdminGuides = () => {
     if (!window.confirm("ยืนยันการลบไกด์นี้?")) return;
 
     try {
-      await axios.delete(`http://localhost:4000/guides/${id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/guides/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchGuides();

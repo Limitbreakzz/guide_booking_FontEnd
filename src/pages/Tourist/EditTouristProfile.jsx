@@ -35,7 +35,7 @@ const EditTouristProfile = () => {
         });
 
         if (data.picture) {
-          setPreview(`http://localhost:4000/images/${data.picture}`);
+          setPreview(`${import.meta.env.VITE_API_URL}/${data.picture}`);
         }
       } catch {
         alert("โหลดข้อมูลไม่สำเร็จ");
@@ -66,7 +66,7 @@ const EditTouristProfile = () => {
         formData.append(key, form[key]);
       });
 
-      await axios.put(`http://localhost:4000/tourists/${id}`, formData, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/tourists/${id}`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
