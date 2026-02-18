@@ -2,18 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  CartesianGrid,
-  Cell,
-  AreaChart,
-  Area
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
+  CartesianGrid, Cell, PieChart, Pie, Legend
 } from "recharts";
-import { Map, Users, Calendar, UserCheck, TrendingUp, Clock } from "lucide-react";
+import { Map, Users, Calendar, UserCheck, TrendingUp, Clock, PieChart as PieIcon } from "lucide-react";
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
@@ -26,7 +18,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/admin/dashboard`);
+        const res = await axios.get("http://localhost:4000/admin/dashboard");
         setStats({
           trips: res.data.totalTrips || 0,
           guides: res.data.totalGuides || 0,
@@ -40,66 +32,60 @@ const AdminDashboard = () => {
     fetchData();
   }, []);
 
-  const chartData = [
-    { name: "ทริป", value: stats.trips, color: "#1890FF" },
-    { name: "ไกด์", value: stats.guides, color: "#37101A" },
-    { name: "นักท่องเที่ยว", value: stats.tourists, color: "#DF98A9" },
-    { name: "การจอง", value: stats.bookings, color: "#FFC5D3" },
+  const barData = [
+    { name: "TRIPS", value: stats.trips, color: "#37101A" },
+    { name: "GUIDES", value: stats.guides, color: "#DF98A9" },
+    { name: "TOURISTS", value: stats.tourists, color: "#FFC5D3" },
+    { name: "BOOKINGS", value: stats.bookings, color: "#FFB0C2" },
+  ];
+
+  const pieData = [
+    { name: "Guides", value: stats.guides, color: "#37101A" },
+    { name: "Tourists", value: stats.tourists, color: "#DF98A9" },
   ];
 
   return (
-    <div className="w-full space-y-8">
-      <div className="flex justify-between items-end">
+    <div className="w-full space-y-6 pb-10 px-2">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-[#37101A] tracking-tight">Overview</h1>
-          <p className="text-gray-500 mt-1">สรุปข้อมูลสถิติสำคัญของระบบ GoWithGuide</p>
+          <h1 className="text-2xl font-black text-[#37101A] tracking-tight uppercase">Admin Dashboard</h1>
+          <p className="text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em]">Platform Global Metrics</p>
         </div>
-        <div className="hidden md:flex items-center gap-2 bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100">
-          <Clock size={16} className="text-gray-400" />
-          <span className="text-sm font-medium text-gray-500">อัปเดตล่าสุด: วันนี้, 10:00 น.</span>
+
+        <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-lg shadow-sm border border-slate-200 text-[#37101A]">
+          <Clock size={14} className="text-[#DF98A9]" />
+          <span className="text-[10px] font-bold uppercase tracking-wider">System update: {new Date().toLocaleDateString('th-TH')}</span>
         </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard label="ทริปทั้งหมด" value={stats.trips} icon={<Map size={24} />} color="text-blue-600" bgColor="bg-blue-50" />
-        <StatCard label="ไกด์ทั้งหมด" value={stats.guides} icon={<UserCheck size={24} />} color="text-[#37101A]" bgColor="bg-[#37101A]/10" />
-        <StatCard label="นักท่องเที่ยว" value={stats.tourists} icon={<Users size={24} />} color="text-pink-600" bgColor="bg-pink-50" />
-        <StatCard label="การจองทั้งหมด" value={stats.bookings} icon={<Calendar size={24} />} color="text-emerald-600" bgColor="bg-emerald-50" />
+        <StatCard label="Total Trips" value={stats.trips} icon={<Map size={20} />} />
+        <StatCard label="Active Guides" value={stats.guides} icon={<UserCheck size={20} />} />
+        <StatCard label="Total Tourists" value={stats.tourists} icon={<Users size={20} />} />
+        <StatCard label="Total Bookings" value={stats.bookings} icon={<Calendar size={20} />} />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-gray-50 rounded-lg text-[#37101A]">
-                <TrendingUp size={20} />
-              </div>
-              <h2 className="text-xl font-bold text-[#37101A]">สถิติภาพรวม</h2>
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        <div className="xl:col-span-2 bg-white rounded-xl p-8 border border-slate-200 shadow-sm">
+          <div className="flex items-center gap-3 mb-10">
+            <div className="p-2.5 bg-slate-50 rounded-lg text-[#37101A] border border-slate-100">
+              <TrendingUp size={20} />
             </div>
-            <select className="bg-gray-50 border-none text-sm font-bold rounded-lg px-3 py-1 text-gray-500 focus:ring-0">
-              <option>รายปี 2026</option>
-              <option>รายเดือน</option>
-            </select>
+            <h2 className="text-lg font-bold text-[#37101A] tracking-tight">กราฟแสดงข้อมูลสถิติรวม</h2>
           </div>
 
-          <div className="h-[350px] w-full">
+          <div className="h-[450px] w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={chartData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f8fafc" />
-                <XAxis 
-                  dataKey="name" 
-                  axisLine={false} 
-                  tickLine={false} 
-                  tick={{ fill: '#64748b', fontSize: 13, fontWeight: 500 }}
-                  dy={10}
-                />
-                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 12 }} />
+              <BarChart data={barData} margin={{ top: 0, right: 10, left: -20, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 11, fontWeight: 700 }} dy={10} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#cbd5e1', fontSize: 11 }} />
                 <Tooltip 
-                  cursor={{ fill: '#f8fafc' }}
-                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
+                   cursor={{ fill: '#f8fafc' }} 
+                   contentStyle={{ borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }} 
                 />
-                <Bar dataKey="value" radius={[8, 8, 8, 8]} barSize={50}>
-                  {chartData.map((entry, index) => (
+                <Bar dataKey="value" radius={[6, 6, 0, 0]} barSize={65}>
+                  {barData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Bar>
@@ -108,51 +94,68 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <div className="bg-[#37101A] rounded-3xl p-8 text-white relative overflow-hidden shadow-xl shadow-[#37101A]/20">
-          <div className="relative z-10 h-full flex flex-col justify-between">
-            <div>
-              <h3 className="text-xl font-bold opacity-90">Quick Summary</h3>
-              <p className="text-white/60 text-sm mt-2 font-light">การเติบโตของแพลตฟอร์มในเดือนที่ผ่านมา</p>
+        <div className="bg-white rounded-xl p-8 border border-slate-200 shadow-sm flex flex-col">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="p-2.5 bg-slate-50 rounded-lg text-[#37101A] border border-slate-100">
+              <PieIcon size={20} />
             </div>
-            
-            <div className="space-y-6">
-              <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                <span className="text-sm text-white/70">การจองใหม่</span>
-                <span className="text-lg font-bold">+ 12.5%</span>
-              </div>
-              <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                <span className="text-sm text-white/70">ไกด์สมัครใหม่</span>
-                <span className="text-lg font-bold">+ 5</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-white/70">ยอดเข้าชม</span>
-                <span className="text-lg font-bold">2.4k</span>
-              </div>
-            </div>
+            <h2 className="text-lg font-bold text-[#37101A] tracking-tight">สัดส่วนผู้ใช้ระบบ</h2>
+          </div>
 
-            <button className="w-full py-3 bg-white text-[#37101A] font-bold rounded-xl hover:bg-[#FFC1CC] transition-colors">
-              ดูรายงานละเอียด
-            </button>
+          <div className="flex-1 min-h-[350px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={80}
+                  outerRadius={110}
+                  paddingAngle={10}
+                  dataKey="value"
+                >
+                  {pieData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} stroke="none" />
+                  ))}
+                </Pie>
+                <Tooltip />
+                <Legend 
+                  iconType="circle" 
+                  verticalAlign="bottom" 
+                  formatter={(value) => <span className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">{value}</span>} 
+                />
+              </PieChart>
+            </ResponsiveContainer>
           </div>
           
-          <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+          <div className="mt-8 pt-6 border-t border-slate-100 text-center">
+             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1">Total System Population</p>
+             <h3 className="text-3xl font-black text-[#37101A]">{(stats.guides + stats.tourists).toLocaleString()}</h3>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-const StatCard = ({ label, value, icon, color, bgColor }) => (
-  <motion.div 
-    whileHover={{ y: -5 }}
-    className="bg-white rounded-3xl p-6 border border-gray-50 shadow-sm flex items-center gap-5"
+const StatCard = ({ label, value, icon }) => (
+  <motion.div
+    whileHover={{ y: -4, transition: { duration: 0.2 } }}
+    className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm flex items-center justify-between"
   >
-    <div className={`w-14 h-14 ${bgColor} ${color} rounded-2xl flex items-center justify-center`}>
-      {icon}
+    <div className="flex items-center gap-5">
+      <div className="w-12 h-12 bg-slate-50 text-[#37101A] rounded-xl flex items-center justify-center border border-slate-100 shadow-sm">
+        {icon}
+      </div>
+      <div>
+        <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">{label}</p>
+        <h2 className="text-2xl font-black text-[#37101A] tracking-tighter">
+          {value.toLocaleString()}
+        </h2>
+      </div>
     </div>
-    <div>
-      <p className="text-gray-400 text-xs font-bold uppercase tracking-wider">{label}</p>
-      <h2 className="text-2xl font-bold text-[#37101A] mt-0.5">{value.toLocaleString()}</h2>
+    <div className="text-[#DF98A9]/20">
+      <TrendingUp size={32} />
     </div>
   </motion.div>
 );
