@@ -27,7 +27,7 @@ const EditGuideProfile = () => {
   useEffect(() => {
     const fetchGuide = async () => {
       try {
-        const res = await axios.get(`http://localhost:4000/guides/${id}`);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/guides/${id}`);
         const data = res.data.data;
         setForm({
           name: data.name || "",

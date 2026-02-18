@@ -14,7 +14,7 @@ const TopTrips = () => {
     const fetchData = async () => {
         try {
             setLoading(true);
-            const res = await axios.get("http://localhost:4000/trips/top");
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/trips/top`);
             setTrips(res.data.data || []);
         } catch (err) {
             console.error("Error fetching top trips:", err);

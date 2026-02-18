@@ -20,7 +20,7 @@ const TripDetail = () => {
 
   const fetchTrip = async () => {
     try {
-      const res = await axios.get(`http://localhost:4000/trips/${id}`);
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/trips/${id}`);
       setTrip(res.data.data);
     } catch (err) {
       console.error("Error fetching trip:", err);

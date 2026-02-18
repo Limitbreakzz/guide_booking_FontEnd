@@ -78,7 +78,7 @@ const Contact = () => {
       setLoading(true);
 
       const response = await axios.post(
-        "http://localhost:4000/contact",
+        `${import.meta.env.VITE_API_URL}/contact`,
         formData,
         {
           headers: {

@@ -17,8 +17,8 @@ const Trips = () => {
       setLoading(true);
       const keyword = searchTrip.trim() || searchProvince.trim();
       const url = keyword
-        ? `http://localhost:4000/trips/q/${encodeURIComponent(keyword)}`
-        : `http://localhost:4000/trips`;
+        ? `${import.meta.env.VITE_API_URL}/trips/q/${encodeURIComponent(keyword)}`
+        : `${import.meta.env.VITE_API_URL}/trips`;
 
       const res = await axios.get(url);
       setTrips(res.data.data);

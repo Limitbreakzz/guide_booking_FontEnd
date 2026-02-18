@@ -22,7 +22,7 @@ const EditTrip = () => {
 
   const fetchTrip = async () => {
     try {
-      const res = await axios.get(`http://localhost:4000/trips/${id}`);
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/trips/${id}`);
       const data = res.data.data;
 
       if (role !== "GUIDE" || Number(userId) !== data.guideId) {

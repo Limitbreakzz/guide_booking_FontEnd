@@ -28,7 +28,7 @@ const GuideDetail = () => {
   const fetchProfile = async () => {
     try {
       if (!id) return;
-      const guideRes = await axios.get(`http://localhost:4000/guides/${id}`);
+      const guideRes = await axios.get(`${import.meta.env.VITE_API_URL}/guides/${id}`);
       setGuide(guideRes.data.data);
       if (!token) return;
       const bookingRes = await axios.get(

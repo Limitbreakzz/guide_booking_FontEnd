@@ -24,7 +24,7 @@ const TouristProfile = () => {
   const fetchTourist = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:4000/tourists/${id}`
+        `${import.meta.env.VITE_API_URL}/tourists/${id}`
       );
       setTourist(res.data.data);
     } catch (error) {

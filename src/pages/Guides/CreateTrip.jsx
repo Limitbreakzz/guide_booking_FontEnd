@@ -25,7 +25,7 @@ const CreateTrip = () => {
 
   const fetchProvinces = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/provinces");
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/provinces`);
       setProvinces(Array.isArray(res.data.data) ? res.data.data : []);
     } catch (err) {
       console.error("โหลดข้อมูลจังหวัดไม่สำเร็จ", err);

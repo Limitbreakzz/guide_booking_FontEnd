@@ -20,7 +20,7 @@ const Register = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post("http://localhost:4000/auth/register", form);
+      await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, form);
       alert("สมัครสมาชิกสำเร็จ");
       navigate("/login");
     } catch (err) {

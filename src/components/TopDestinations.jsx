@@ -12,7 +12,7 @@ const TopDestinations = () => {
     const fetchTopDestinations = async () => {
         try {
             setLoading(true);
-            const res = await axios.get("http://localhost:4000/trips/top-destinations");
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/trips/top-destinations`);
             if (res.data && res.data.data) {
                 setDestinations(res.data.data);
             } else {

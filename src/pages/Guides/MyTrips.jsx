@@ -17,7 +17,7 @@ const MyTrips = () => {
 
   const fetchMyTrips = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/trips");
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/trips`);
       const myTrips = res.data.data.filter(
         (trip) => trip.guideId === Number(userId)
       );

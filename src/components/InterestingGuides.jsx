@@ -15,7 +15,7 @@ const InterestingGuides = () => {
     try {
       setLoading(true);
       // เรียงลำดับจาก rating มากไปน้อย (desc)
-      const res = await axios.get("http://localhost:4000/guides", {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}0/guides`, {
         params: { sort: "rating:desc", limit: 3 }
       });
       if (res.data && res.data.data) {

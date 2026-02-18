@@ -16,8 +16,8 @@ const Guides = () => {
       setLoading(true);
 
       const url = keyword.trim()
-        ? `http://localhost:4000/guides/q/${encodeURIComponent(keyword)}`
-        : `http://localhost:4000/guides`;
+        ? `${import.meta.env.VITE_API_URL}/guides/q/${encodeURIComponent(keyword)}`
+        : `${import.meta.env.VITE_API_URL}/guides`;
 
       const res = await axios.get(url);
       setGuides(res.data.data);

@@ -16,7 +16,7 @@ const Booking = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/trips/${tripId}`)
+      .get(`${import.meta.env.VITE_API_URL}/trips/${tripId}`)
       .then((res) => setTrip(res.data.data))
       .catch(() => alert("โหลดข้อมูลทริปไม่สำเร็จ"));
   }, [tripId]);
