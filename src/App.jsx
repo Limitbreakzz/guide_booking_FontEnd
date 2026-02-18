@@ -25,6 +25,7 @@ import AdminGuides from "./pages/Admin/AdminGuides";
 import AdminEditTrip from "./pages/Admin/AdminEditTrip";
 import AdminTourists from "./pages/Admin/AdminTourists";
 import TouristBookings from "./pages/Tourist/TouristBookings";
+import GuideBookings from "./pages/Guides/GuideBookings";
 
 const App = () => {
   return (
