@@ -136,7 +136,7 @@ const GuideBookings = () => {
                       </h3>
                       <div
                         onClick={() =>
-                          navigate(`/tourist-profile/${booking.tourist?.id}`)
+                          navigate(`/tourist/${booking.tourist?.id}`)
                         }
                         className="flex items-center gap-2 text-gray-500 cursor-pointer hover:text-[#37101A] transition group"
                       >

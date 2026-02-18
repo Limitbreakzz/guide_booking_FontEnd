@@ -15,7 +15,7 @@ const TouristBookings = () => {
 
   const fetchBookings = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/bookings/`, {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/bookings/my-bookings`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setBookings(res.data.data);
