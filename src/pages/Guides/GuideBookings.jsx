@@ -20,9 +20,12 @@ const GuideBookings = () => {
 
   const fetchBookings = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/bookings/my-bookings`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/bookings/my-bookings`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
       setBookings(res.data.data || []);
     } catch (err) {
       console.error(err);
@@ -42,36 +45,46 @@ const GuideBookings = () => {
       await axios.put(
         `${import.meta.env.VITE_API_URL}/bookings/${id}`,
         { status },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       fetchBookings();
     } catch (err) {
       console.error(err);
-      alert("อัปเดตไม่สำเร็จ: " + (err.response?.data?.message || "กรุณาลองใหม่"));
+      alert(
+        "อัปเดตไม่สำเร็จ: " + (err.response?.data?.message || "กรุณาลองใหม่"),
+      );
     }
   };
 
   const getStatusLabel = (status) => {
     switch (status) {
-      case "pending": return "รอการยืนยัน";
-      case "confirmed": return "ยืนยันแล้ว";
-      case "rejected": return "ปฏิเสธแล้ว";
-      default: return status;
+      case "pending":
+        return "รอการยืนยัน";
+      case "confirmed":
+        return "ยืนยันแล้ว";
+      case "rejected":
+        return "ปฏิเสธแล้ว";
+      default:
+        return status;
     }
   };
 
   const getStatusStyle = (status) => {
     switch (status) {
-      case "pending": return "bg-amber-50 text-amber-600 border-amber-100";
-      case "confirmed": return "bg-emerald-50 text-emerald-600 border-emerald-100";
-      case "rejected": return "bg-rose-50 text-rose-600 border-rose-100";
-      default: return "bg-gray-50 text-gray-500 border-gray-100";
+      case "pending":
+        return "bg-amber-50 text-amber-600 border-amber-100";
+      case "confirmed":
+        return "bg-emerald-50 text-emerald-600 border-emerald-100";
+      case "rejected":
+        return "bg-rose-50 text-rose-600 border-rose-100";
+      default:
+        return "bg-gray-50 text-gray-500 border-gray-100";
     }
   };
 
   return (
     <div className="min-h-screen bg-[#FAF9F6] py-10 px-4 md:px-8 font-medium">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="max-w-5xl mx-auto"
@@ -82,8 +95,12 @@ const GuideBookings = () => {
               <i className="fa-solid fa-calendar-check text-white text-2xl"></i>
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-[#37101A]">งานที่มีคนจอง</h1>
-              <p className="text-gray-400 text-xs mt-1">จัดการรายการจองทริปของคุณ</p>
+              <h1 className="text-2xl font-bold text-[#37101A]">
+                งานที่มีคนจอง
+              </h1>
+              <p className="text-gray-400 text-xs mt-1">
+                จัดการรายการจองทริปของคุณ
+              </p>
             </div>
           </div>
           <BackButton label="กลับ" />
@@ -96,7 +113,9 @@ const GuideBookings = () => {
         ) : bookings.length === 0 ? (
           <div className="bg-white rounded-3xl p-20 text-center border border-gray-100 shadow-sm">
             <i className="fa-solid fa-inbox text-5xl text-gray-200 mb-4"></i>
-            <p className="text-gray-400 font-bold text-sm">ยังไม่มีรายการจองในขณะนี้</p>
+            <p className="text-gray-400 font-bold text-sm">
+              ยังไม่มีรายการจองในขณะนี้
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-4">
@@ -109,19 +128,31 @@ const GuideBookings = () => {
                 <div className="flex flex-col md:flex-row gap-5 md:items-center flex-grow">
                   <div className="flex items-center gap-4">
                     <div className="w-14 h-14 bg-gray-50 rounded-xl flex items-center justify-center text-[#37101A]">
-                       <i className="fa-solid fa-map-location-dot text-2xl"></i>
+                      <i className="fa-solid fa-map-location-dot text-2xl"></i>
                     </div>
                     <div>
-                      <h3 className="text-base font-bold text-[#37101A] mb-0.5">{booking.trip?.name}</h3>
-                      <div className="flex items-center gap-2 text-gray-400">
-                        <i className="fa-solid fa-circle-user text-lg"></i>
-                        <span className="text-sm">{booking.tourist?.name}</span>
+                      <h3 className="text-base font-bold text-[#37101A] mb-0.5">
+                        {booking.trip?.name}
+                      </h3>
+                      <div
+                        onClick={() =>
+                          navigate(`/tourist-profile/${booking.tourist?.id}`)
+                        }
+                        className="flex items-center gap-2 text-gray-500 cursor-pointer hover:text-[#37101A] transition group"
+                      >
+                        <i className="fa-solid fa-circle-user text-lg group-hover:scale-110 transition"></i>
+
+                        <span className="text-sm font-semibold group-hover:underline">
+                          {booking.tourist?.name}
+                        </span>
                       </div>
                     </div>
                   </div>
 
                   <div className="md:ml-auto">
-                    <span className={`px-3 py-1 rounded-full text-[11px] font-bold border ${getStatusStyle(booking.status)}`}>
+                    <span
+                      className={`px-3 py-1 rounded-full text-[11px] font-bold border ${getStatusStyle(booking.status)}`}
+                    >
                       {getStatusLabel(booking.status)}
                     </span>
                   </div>
@@ -149,7 +180,7 @@ const GuideBookings = () => {
 
                 {booking.status !== "pending" && (
                   <div className="hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-gray-50 text-gray-300 border border-gray-100">
-                     <i className="fa-solid fa-check text-lg"></i>
+                    <i className="fa-solid fa-check text-lg"></i>
                   </div>
                 )}
               </motion.div>

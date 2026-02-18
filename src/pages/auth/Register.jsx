@@ -13,14 +13,26 @@ const Register = () => {
     tel: "",
     language: "",
     experience: "",
-    role: "TOURIST"
+    role: "TOURIST",
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const trimmedName = form.name.trim();
+
+    if (trimmedName.length < 2 || trimmedName.length > 100) {
+      alert("ชื่อควรมีความยาวระหว่าง 2 - 100 ตัวอักษร");
+      return;
+    }
+
+    if (!/^0[0-9]{9}$/.test(form.tel)) {
+      alert("กรุณากรอกเบอร์โทรให้ถูกต้อง (10 หลัก และขึ้นต้นด้วย 0)");
+      return;
+    }
+
     setLoading(true);
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, form);
+      await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, { ...form, name: trimmedName });
       alert("สมัครสมาชิกสำเร็จ");
       navigate("/login");
     } catch (err) {
@@ -32,7 +44,7 @@ const Register = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-[#FAF9F6] px-4 py-12 font-medium">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
@@ -75,9 +87,13 @@ const Register = () => {
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="space-y-2">
-            <label className="text-[11px] text-gray-400 uppercase tracking-widest pl-1">Full Name</label>
+            <label className="text-[11px] text-gray-400 uppercase tracking-widest pl-1">
+              Full Name
+            </label>
             <input
               placeholder="ชื่อ-นามสกุลของคุณ"
+              maxLength={100}
+              value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               className="w-full bg-white border border-gray-200 px-4 py-3.5 rounded-lg outline-none focus:border-[#FFC1CC] focus:ring-1 focus:ring-[#FFC1CC] transition-all text-[#37101A] placeholder:text-gray-300 shadow-sm"
               required
@@ -85,7 +101,9 @@ const Register = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-[11px] text-gray-400 uppercase tracking-widest pl-1">Email</label>
+            <label className="text-[11px] text-gray-400 uppercase tracking-widest pl-1">
+              Email
+            </label>
             <input
               type="email"
               placeholder="name@example.com"
@@ -97,7 +115,9 @@ const Register = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-[11px] text-gray-400 uppercase tracking-widest pl-1">Password</label>
+              <label className="text-[11px] text-gray-400 uppercase tracking-widest pl-1">
+                Password
+              </label>
               <input
                 type="password"
                 placeholder="••••••••"
@@ -108,11 +128,21 @@ const Register = () => {
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[11px] text-gray-400 uppercase tracking-widest pl-1">Tel</label>
+              <label className="text-[11px] text-gray-400 uppercase tracking-widest pl-1">
+                Tel
+              </label>
               <input
-                placeholder="08X-XXX-XXXX"
-                maxLength={10}
-                onChange={(e) => setForm({ ...form, tel: e.target.value})}
+                type="tel"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                placeholder="08XXXXXXXX"
+                value={form.tel}
+                onChange={(e) => {
+                  const onlyNumbers = e.target.value.replace(/\D/g, "");
+                  if (onlyNumbers.length <= 10) {
+                    setForm({ ...form, tel: onlyNumbers });
+                  }
+                }}
                 className="w-full bg-white border border-gray-200 px-4 py-3.5 rounded-lg outline-none focus:border-[#FFC1CC] focus:ring-1 focus:ring-[#FFC1CC] transition-all text-[#37101A] placeholder:text-gray-300 shadow-sm"
                 required
               />
@@ -127,18 +157,26 @@ const Register = () => {
                 className="space-y-5 overflow-hidden pt-2"
               >
                 <div className="space-y-2">
-                  <label className="text-[11px] text-gray-400 uppercase tracking-widest pl-1">Language</label>
+                  <label className="text-[11px] text-gray-400 uppercase tracking-widest pl-1">
+                    Language
+                  </label>
                   <input
                     placeholder="ภาษาที่เชี่ยวชาญ (เช่น ไทย, English)"
-                    onChange={(e) => setForm({ ...form, language: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, language: e.target.value })
+                    }
                     className="w-full bg-white border border-gray-200 px-4 py-3.5 rounded-lg outline-none focus:border-[#FFC1CC] focus:ring-1 focus:ring-[#FFC1CC] transition-all text-[#37101A] shadow-sm"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[11px] text-gray-400 uppercase tracking-widest pl-1">Experience</label>
+                  <label className="text-[11px] text-gray-400 uppercase tracking-widest pl-1">
+                    Experience
+                  </label>
                   <textarea
                     placeholder="เล่าประสบการณ์ของคุณ..."
-                    onChange={(e) => setForm({ ...form, experience: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, experience: e.target.value })
+                    }
                     className="w-full bg-white border border-gray-200 px-4 py-3.5 rounded-lg outline-none focus:border-[#FFC1CC] focus:ring-1 focus:ring-[#FFC1CC] transition-all text-[#37101A] shadow-sm resize-none"
                     rows="3"
                   />
@@ -147,7 +185,7 @@ const Register = () => {
             )}
           </AnimatePresence>
 
-          <button 
+          <button
             disabled={loading}
             className="w-full bg-[#37101A] text-white py-4 rounded-lg font-medium text-[14px] uppercase tracking-widest hover:bg-[#2A0C14] transition-all shadow-md mt-6 disabled:opacity-50"
           >
