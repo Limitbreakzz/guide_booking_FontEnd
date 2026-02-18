@@ -18,7 +18,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://localhost:4000/admin/dashboard");
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/admin/dashboard`);
         setStats({
           trips: res.data.totalTrips || 0,
           guides: res.data.totalGuides || 0,

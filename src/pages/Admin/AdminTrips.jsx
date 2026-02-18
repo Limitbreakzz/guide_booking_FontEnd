@@ -18,7 +18,7 @@ const AdminTrips = () => {
 
   const fetchTrips = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/trips");
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/trips`);
       setTrips(res.data.data || []);
     } catch (err) {
       console.error(err);
@@ -28,7 +28,7 @@ const AdminTrips = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("คุณแน่ใจหรือไม่ที่จะลบทริปนี้?")) return;
     try {
-      await axios.delete(`http://localhost:4000/trips/${id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/trips/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchTrips();
