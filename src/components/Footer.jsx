@@ -70,7 +70,7 @@ export default function Footer() {
 
         {/* Logo */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left">
-          <img src="/public/img/logo.png" alt="Logo" className="h-12 mb-2" />
+          <img src="/img/logo.png" alt="Logo" className="h-12 mb-2" />
           <h2 className="font-bold text-xl">GoWithGuide</h2>
           <p className="text-gray-500 mt-2 text-xs">
             Explore Asia with trusted local guides

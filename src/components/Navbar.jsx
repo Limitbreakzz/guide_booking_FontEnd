@@ -103,7 +103,7 @@ const Navbar = ({ isOnBanner = false }) => {
       <nav className="sticky top-0 z-50 w-full bg-white shadow-sm border-b-2 border-[#37101A]">
         <div className="flex justify-between items-center max-w-7xl mx-auto px-6 py-3">
           <Link to="/" className="flex items-center gap-2 no-underline">
-            <img src="/public/img/logo.png" alt="Logo" className="h-10 w-auto" />
+            <img src="/img/logo.png" alt="Logo" className="h-10 w-auto" />
             <span className="font-black text-2xl text-[#37101A] tracking-tighter">GoWithGuide</span>
           </Link>
 
