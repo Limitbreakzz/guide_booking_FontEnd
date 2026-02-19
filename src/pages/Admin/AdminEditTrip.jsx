@@ -148,14 +148,17 @@ const AdminEditTrip = () => {
               className="w-full border border-slate-200 p-3 rounded-lg focus:ring-2 focus:ring-[#37101A] outline-none"
             />
 
-            <div>
-              <label className="block text-sm font-bold text-slate-500 mb-2">
+            <div className="relative">
+              <label className="absolute -top-3 left-6 bg-white px-2 text-[14px] font-medium text-gray-400 uppercase z-10">
                 รูปภาพใหม่ (ถ้ามี)
               </label>
               <input
                 type="file"
-                onChange={(e) => setPicture(e.target.files[0])}
-                className="w-full border border-slate-200 p-2 rounded-lg"
+                accept="image/*"
+                onChange={(e) =>
+                  setTrip({ ...trip, picture: e.target.files[0] })
+                }
+                className="w-full px-6 py-4 border border-gray-100 rounded-lg outline-none focus:border-[#FFC1CC] transition-all text-[#37101A] file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-[14px] file:font-medium file:bg-[#37101A] file:text-white hover:file:bg-black file:cursor-pointer file:uppercase"
               />
             </div>
 
