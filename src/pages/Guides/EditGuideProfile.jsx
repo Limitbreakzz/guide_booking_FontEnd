@@ -28,7 +28,7 @@ const EditGuideProfile = () => {
     const fetchGuide = async () => {
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_API_URL}/guides/${id}`
+          `${import.meta.env.VITE_API_URL}/guides/${id}`,
         );
         const data = res.data.data;
 
@@ -43,9 +43,7 @@ const EditGuideProfile = () => {
         });
 
         if (data.picture) {
-          setPreview(
-            `${import.meta.env.VITE_API_URL}/images/${data.picture}`
-          );
+          setPreview(`${import.meta.env.VITE_API_URL}/images/${data.picture}`);
         }
       } catch {
         alert("โหลดข้อมูลไม่สำเร็จ");
@@ -107,7 +105,7 @@ const EditGuideProfile = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       navigate(`/guides/${id}`);
@@ -165,7 +163,6 @@ const EditGuideProfile = () => {
 
           <div className="pt-12 pb-8 px-6">
             <form onSubmit={handleSubmit} className="space-y-4">
-
               <InputGroup
                 label="ชื่อ-นามสกุล"
                 icon="fa-user"
@@ -185,6 +182,37 @@ const EditGuideProfile = () => {
               />
 
               <InputGroup
+                label="ภาษาที่ถนัด"
+                icon="fa-language"
+                value={form.language}
+                onChange={(v) => setForm({ ...form, language: v })}
+                placeholder="เช่น ไทย, อังกฤษ"
+              />
+
+              <InputGroup
+                label="ประสบการณ์"
+                icon="fa-briefcase"
+                value={form.experience}
+                onChange={(v) => setForm({ ...form, experience: v })}
+                placeholder="เช่น 3 ปี"
+              />
+              
+              <div className="flex items-center justify-between bg-gray-50 border border-gray-100 rounded-xl px-4 py-3">
+                <span className="text-sm font-bold">สถานะการให้บริการ</span>
+                <button
+                  type="button"
+                  onClick={() => setForm({ ...form, status: !form.status })}
+                  className={`px-4 py-1.5 rounded-full text-xs font-bold transition ${
+                    form.status
+                      ? "bg-green-100 text-green-700"
+                      : "bg-gray-200 text-gray-600"
+                  }`}
+                >
+                  {form.status ? "พร้อมให้บริการ" : "ไม่พร้อม"}
+                </button>
+              </div>
+
+              <InputGroup
                 label="เบอร์โทรศัพท์"
                 icon="fa-phone"
                 value={form.tel}
@@ -198,7 +226,6 @@ const EditGuideProfile = () => {
               >
                 {saving ? "กำลังบันทึก..." : "บันทึกการเปลี่ยนแปลง"}
               </button>
-
             </form>
           </div>
         </div>
@@ -258,9 +285,7 @@ const InputGroup = ({
       </div>
 
       {isTel && value.length > 0 && value.length !== 10 && (
-        <p className="text-xs text-rose-500 px-1">
-          เบอร์โทรต้องมี 10 หลัก
-        </p>
+        <p className="text-xs text-rose-500 px-1">เบอร์โทรต้องมี 10 หลัก</p>
       )}
 
       {isName && value.trim().length > 0 && value.trim().length < 2 && (
