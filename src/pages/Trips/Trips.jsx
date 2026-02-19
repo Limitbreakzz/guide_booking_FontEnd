@@ -131,14 +131,14 @@ const Trips = () => {
                   </div>
 
                   <div className="flex-1 p-6 md:p-6 flex flex-col justify-between">
-                    <div className="flex justify-between items-start">
+                    <div className="flex justify-between items-start min-w-0">
                       <div className="min-w-0 pr-4">
                         <h3 className="text-2xl font-bold text-[#37101A] truncate mb-1">
                           {trip.name}
                         </h3>
                         <div className="flex items-center gap-2 text-gray-500 text-[14px] mb-3">
                           <i className="fa-solid fa-newspaper text-[#37101A] flex-shrink-0"></i>
-                          <span className="block min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">
+                          <span className="block w-full min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">
                             {trip.description || "ไม่มีคำอธิบาย"}
                           </span>
                         </div>
@@ -147,18 +147,21 @@ const Trips = () => {
                         <p className="text-[14px] text-gray-400 font-base uppercase">
                           ราคาประมาณ
                         </p>
-                        <p className="text-2xl font-black text-[#FFC1CC]">
+                        <p className="text-2xl font-black text-[#FFC1CC] whitespace-nowrap">
                           {trip.price ? trip.price.toLocaleString() : "0"}{" "}
                           <span className="text-md font-bold">บาท</span>
                         </p>
                       </div>
                     </div>
-
                     <div className="mt-auto flex items-center gap-3 pt-4">
                       <button
                         onClick={() => navigate(`/trips/${trip.id}`)}
                         disabled={trip.isActive === false}
-                        className={`flex-1 py-4 font-medium rounded-lg transition-all text-md ${trip.isActive !== false ? "bg-[#FFC1CC]/40 text-[#37101A] hover:bg-[#FFC1CC]" : "bg-gray-100 text-gray-400 cursor-not-allowed"}`}
+                        className={`flex-1 py-4 font-medium rounded-lg transition-all text-md ${
+                          trip.isActive !== false
+                            ? "bg-[#FFC1CC]/40 text-[#37101A] hover:bg-[#FFC1CC]"
+                            : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                        }`}
                       >
                         {trip.isActive !== false
                           ? "รายละเอียด / จองทริป"
