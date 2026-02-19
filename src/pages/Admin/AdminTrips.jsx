@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Plus, Eye, Edit3, Trash2, MapPin, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { Plus, MapPin, Search, ChevronLeft, ChevronRight, Eye, Edit3, Trash2 } from "lucide-react";
+import TripViewModal from "../../components/Admins/TripViewModal";
+import TripEditModal from "../../components/Admins/TripEditModal";
+import TripCreateModal from "../../components/Admins/TripCreateModal";
 
 const AdminTrips = () => {
   const [trips, setTrips] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const navigate = useNavigate();
+  const [selectedTrip, setSelectedTrip] = useState(null);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -54,18 +59,19 @@ const AdminTrips = () => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="w-full space-y-6 pb-10 px-4"
-    >
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="w-full space-y-6 pb-10 px-4"
+      >
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-black text-[#37101A] uppercase tracking-tight">Trip Management</h1>
           <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-1">Manage all available travel packages</p>
         </div>
         <button
-          onClick={() => navigate("/create-trip")}
+          onClick={() => setIsCreateModalOpen(true)}
           className="flex items-center justify-center gap-2 bg-[#37101A] text-white px-8 py-3 rounded-xl font-bold text-sm shadow-lg shadow-[#37101A]/20 hover:bg-[#4d1a26] transition-all active:scale-95"
         >
           <Plus size={18} strokeWidth={3} /> เพิ่มทริปใหม่
@@ -118,9 +124,33 @@ const AdminTrips = () => {
                   </td>
                   <td className="py-5 px-8">
                     <div className="flex gap-3 justify-center">
-                      <button onClick={() => navigate(`/trips/${trip.id}`)} className="p-2.5 text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white rounded-lg transition-all shadow-sm"><Eye size={18} /></button>
-                      <button onClick={() => navigate(`/admin/trips/${trip.id}/edit`)} className="p-2.5 text-amber-600 bg-amber-50 hover:bg-amber-600 hover:text-white rounded-lg transition-all shadow-sm"><Edit3 size={18} /></button>
-                      <button onClick={() => handleDelete(trip.id)} className="p-2.5 text-red-600 bg-red-50 hover:bg-red-600 hover:text-white rounded-lg transition-all shadow-sm"><Trash2 size={18} /></button>
+                      <button 
+                        onClick={() => {
+                          setSelectedTrip(trip);
+                          setIsViewModalOpen(true);
+                        }}
+                        className="p-2.5 text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white rounded-lg transition-all shadow-sm"
+                        title="View"
+                      >
+                        <Eye size={18} />
+                      </button>
+                      <button 
+                        onClick={() => {
+                          setSelectedTrip(trip);
+                          setIsEditModalOpen(true);
+                        }}
+                        className="p-2.5 text-amber-600 bg-amber-50 hover:bg-amber-600 hover:text-white rounded-lg transition-all shadow-sm"
+                        title="Edit"
+                      >
+                        <Edit3 size={18} />
+                      </button>
+                      <button 
+                        onClick={() => handleDelete(trip.id)}
+                        className="p-2.5 text-red-600 bg-red-50 hover:bg-red-600 hover:text-white rounded-lg transition-all shadow-sm"
+                        title="Delete"
+                      >
+                        <Trash2 size={18} />
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -153,7 +183,7 @@ const AdminTrips = () => {
               ))}
             </select>
           </div>
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">
+          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
             Showing {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, filteredTrips.length)} of {filteredTrips.length}
           </p>
         </div>
@@ -198,7 +228,25 @@ const AdminTrips = () => {
           </button>
         </div>
       </div>
-    </motion.div>
+      </motion.div>
+
+      <TripViewModal 
+        trip={selectedTrip} 
+        isOpen={isViewModalOpen} 
+        onClose={() => setIsViewModalOpen(false)} 
+      />
+      <TripEditModal 
+        trip={selectedTrip} 
+        isOpen={isEditModalOpen} 
+        onClose={() => setIsEditModalOpen(false)} 
+        onUpdate={fetchTrips}
+      />
+      <TripCreateModal 
+        isOpen={isCreateModalOpen} 
+        onClose={() => setIsCreateModalOpen(false)} 
+        onUpdate={fetchTrips}
+      />
+    </>
   );
 };
 

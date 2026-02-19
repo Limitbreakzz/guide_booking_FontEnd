@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Eye, Edit3, Trash2, Users, Search, ChevronLeft, ChevronRight, Mail, Phone, UserCircle } from "lucide-react";
+import { Users, Search, ChevronLeft, ChevronRight, Mail, Phone, UserCircle, Eye, Edit3, Trash2 } from "lucide-react";
+import TouristViewModal from "../../components/Admins/TouristViewModal";
+import TouristEditModal from "../../components/Admins/TouristEditModal";
 
 const AdminTourists = () => {
   const [tourists, setTourists] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const navigate = useNavigate();
+  const [selectedTourist, setSelectedTourist] = useState(null);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -57,12 +60,13 @@ const AdminTourists = () => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="w-full space-y-6 pb-10 px-4"
-    >
-      {/* Header */}
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="w-full space-y-6 pb-10 px-4"
+      >
+        {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <div>
           <h1 className="text-3xl font-black text-[#37101A] uppercase tracking-tight">Tourist Management</h1>
@@ -124,9 +128,33 @@ const AdminTourists = () => {
                   </td>
                   <td className="py-5 px-8">
                     <div className="flex gap-3 justify-center">
-                      <button onClick={() => navigate(`/tourist/${tourist.id}`)} className="p-2.5 text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white rounded-lg transition-all shadow-sm" title="View"><Eye size={18} /></button>
-                      <button onClick={() => navigate(`/tourist/${tourist.id}/edit`)} className="p-2.5 text-amber-600 bg-amber-50 hover:bg-amber-600 hover:text-white rounded-lg transition-all shadow-sm" title="Edit"><Edit3 size={18} /></button>
-                      <button onClick={() => handleDelete(tourist.id)} className="p-2.5 text-red-600 bg-red-50 hover:bg-red-600 hover:text-white rounded-lg transition-all shadow-sm" title="Delete"><Trash2 size={18} /></button>
+                      <button 
+                        onClick={() => {
+                          setSelectedTourist(tourist);
+                          setIsViewModalOpen(true);
+                        }}
+                        className="p-2.5 text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white rounded-lg transition-all shadow-sm"
+                        title="View"
+                      >
+                        <Eye size={18} />
+                      </button>
+                      <button 
+                        onClick={() => {
+                          setSelectedTourist(tourist);
+                          setIsEditModalOpen(true);
+                        }}
+                        className="p-2.5 text-amber-600 bg-amber-50 hover:bg-amber-600 hover:text-white rounded-lg transition-all shadow-sm"
+                        title="Edit"
+                      >
+                        <Edit3 size={18} />
+                      </button>
+                      <button 
+                        onClick={() => handleDelete(tourist.id)}
+                        className="p-2.5 text-red-600 bg-red-50 hover:bg-red-600 hover:text-white rounded-lg transition-all shadow-sm"
+                        title="Delete"
+                      >
+                        <Trash2 size={18} />
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -206,7 +234,20 @@ const AdminTourists = () => {
           </button>
         </div>
       </div>
-    </motion.div>
+      </motion.div>
+
+      <TouristViewModal 
+        tourist={selectedTourist} 
+        isOpen={isViewModalOpen} 
+        onClose={() => setIsViewModalOpen(false)} 
+      />
+      <TouristEditModal 
+        tourist={selectedTourist} 
+        isOpen={isEditModalOpen} 
+        onClose={() => setIsEditModalOpen(false)} 
+        onUpdate={fetchTourists}
+      />
+    </>
   );
 };
 

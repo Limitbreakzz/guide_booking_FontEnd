@@ -74,7 +74,7 @@ const AdminDashboard = () => {
             <h2 className="text-lg font-bold text-[#37101A] tracking-tight">กราฟแสดงข้อมูลสถิติรวม</h2>
           </div>
 
-          <div className="h-[450px] w-full">
+          <div className="h-[450px] w-full min-w-0">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={barData} margin={{ top: 0, right: 10, left: -20, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
@@ -102,7 +102,7 @@ const AdminDashboard = () => {
             <h2 className="text-lg font-bold text-[#37101A] tracking-tight">สัดส่วนผู้ใช้ระบบ</h2>
           </div>
 
-          <div className="flex-1 min-h-[350px]">
+          <div className="h-[350px] w-full min-w-0">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie

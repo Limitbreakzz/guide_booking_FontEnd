@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Eye, Edit3, Trash2, UserCheck, Search, ChevronLeft, ChevronRight, Mail, ShieldCheck } from "lucide-react";
+import { UserCheck, Search, ChevronLeft, ChevronRight, Mail, ShieldCheck, Eye, Edit3, Trash2 } from "lucide-react";
+import GuideViewModal from "../../components/Admins/GuideViewModal";
+import GuideEditModal from "../../components/Admins/GuideEditModal";
 
 const AdminGuides = () => {
   const [guides, setGuides] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const navigate = useNavigate();
+  const [selectedGuide, setSelectedGuide] = useState(null);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -56,12 +59,13 @@ const AdminGuides = () => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="w-full space-y-6 pb-10 px-4"
-    >
-      {/* Header */}
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="w-full space-y-6 pb-10 px-4"
+      >
+        {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <div>
           <h1 className="text-3xl font-black text-[#37101A] uppercase tracking-tight">Guide Management</h1>
@@ -89,10 +93,10 @@ const AdminGuides = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50/80 border-b border-slate-200">
-                <th className="py-5 px-8 text-[11px] font-black uppercase tracking-[0.15em] text-slate-400 w-1/3">ข้อมูลไกด์</th>
-                <th className="py-5 px-8 text-[11px] font-black uppercase tracking-[0.15em] text-slate-400 w-1/4">อีเมลติดต่อ</th>
-                <th className="py-5 px-8 text-[11px] font-black uppercase tracking-[0.15em] text-slate-400 w-1/6">สถานะการทำงาน</th>
-                <th className="py-5 px-8 text-[11px] font-black uppercase tracking-[0.15em] text-slate-400 text-center">จัดการ</th>
+                <th className="py-5 px-8 text-[14px] font-medium uppercase text-slate-400 w-1/3">ข้อมูลไกด์</th>
+                <th className="py-5 px-8 text-[14px] font-medium uppercase text-slate-400 w-1/4">อีเมลติดต่อ</th>
+                <th className="py-5 px-8 text-[14px] font-medium uppercase text-slate-400 w-1/6">สถานะการทำงาน</th>
+                <th className="py-5 px-8 text-[14px] font-medium uppercase text-slate-400 text-center">จัดการ</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -128,9 +132,33 @@ const AdminGuides = () => {
                   </td>
                   <td className="py-5 px-8">
                     <div className="flex gap-3 justify-center">
-                      <button onClick={() => navigate(`/guides/${guide.id}`)} className="p-2.5 text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white rounded-lg transition-all shadow-sm"><Eye size={18} /></button>
-                      <button onClick={() => navigate(`/guides/${guide.id}/edit`)} className="p-2.5 text-amber-600 bg-amber-50 hover:bg-amber-600 hover:text-white rounded-lg transition-all shadow-sm"><Edit3 size={18} /></button>
-                      <button onClick={() => handleDelete(guide.id)} className="p-2.5 text-red-600 bg-red-50 hover:bg-red-600 hover:text-white rounded-lg transition-all shadow-sm"><Trash2 size={18} /></button>
+                      <button 
+                        onClick={() => {
+                          setSelectedGuide(guide);
+                          setIsViewModalOpen(true);
+                        }}
+                        className="p-2.5 text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white rounded-lg transition-all shadow-sm"
+                        title="View"
+                      >
+                        <Eye size={18} />
+                      </button>
+                      <button 
+                        onClick={() => {
+                          setSelectedGuide(guide);
+                          setIsEditModalOpen(true);
+                        }}
+                        className="p-2.5 text-amber-600 bg-amber-50 hover:bg-amber-600 hover:text-white rounded-lg transition-all shadow-sm"
+                        title="Edit"
+                      >
+                        <Edit3 size={18} />
+                      </button>
+                      <button 
+                        onClick={() => handleDelete(guide.id)}
+                        className="p-2.5 text-red-600 bg-red-50 hover:bg-red-600 hover:text-white rounded-lg transition-all shadow-sm"
+                        title="Delete"
+                      >
+                        <Trash2 size={18} />
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -165,7 +193,7 @@ const AdminGuides = () => {
               ))}
             </select>
           </div>
-          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">
+          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
             Total {filteredGuides.length} Guides
           </span>
         </div>
@@ -210,8 +238,25 @@ const AdminGuides = () => {
           </button>
         </div>
       </div>
-    </motion.div>
+      </motion.div>
+
+      <GuideViewModal 
+        guide={selectedGuide} 
+        isOpen={isViewModalOpen} 
+        onClose={() => setIsViewModalOpen(false)} 
+      />
+      <GuideEditModal 
+        guide={selectedGuide} 
+        isOpen={isEditModalOpen} 
+        onClose={() => setIsEditModalOpen(false)} 
+        onUpdate={fetchGuides}
+      />
+    </>
   );
 };
+
+
+
+
 
 export default AdminGuides;
