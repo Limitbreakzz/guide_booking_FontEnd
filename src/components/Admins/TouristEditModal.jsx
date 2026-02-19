@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Mail, Phone, User, AlertCircle, CheckCircle } from "lucide-react";
+// เพิ่ม Camera icon
+import { X, Mail, Phone, User, AlertCircle, CheckCircle, Camera } from "lucide-react";
 import axios from "axios";
 
 const TouristEditModal = ({ tourist, isOpen, onClose, onUpdate }) => {
@@ -9,6 +10,11 @@ const TouristEditModal = ({ tourist, isOpen, onClose, onUpdate }) => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const token = localStorage.getItem("token");
+  const fileInputRef = useRef(null);
+
+  const handlePictureClick = () => {
+    fileInputRef.current?.click();
+  };
 
   useEffect(() => {
     if (tourist) {
@@ -38,7 +44,6 @@ const TouristEditModal = ({ tourist, isOpen, onClose, onUpdate }) => {
     setSuccess("");
 
     try {
-      // Convert to FormData for multipart/form-data
       const form = new FormData();
       form.append("name", formData.name);
       form.append("email", formData.email);
@@ -47,7 +52,7 @@ const TouristEditModal = ({ tourist, isOpen, onClose, onUpdate }) => {
         form.append("picture", formData.picture);
       }
 
-      await axios.put(`${import.meta.env.VITE_API_URL}/tourists/${tourist.id}`, form, {
+      await axios.put(`http://localhost:4000/tourists/${tourist.id}`, form, {
         headers: { 
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data"
@@ -84,7 +89,6 @@ const TouristEditModal = ({ tourist, isOpen, onClose, onUpdate }) => {
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white rounded-2xl shadow-2xl z-50 max-h-[90vh] overflow-y-auto"
           >
-            {/* Header */}
             <div className="sticky top-0 bg-white border-b border-slate-200 px-8 py-6 flex items-center justify-between">
               <h2 className="text-2xl font-black text-[#37101A]">แก้ไขข้อมูลนักท่องเที่ยว</h2>
               <button
@@ -94,10 +98,8 @@ const TouristEditModal = ({ tourist, isOpen, onClose, onUpdate }) => {
                 <X size={24} />
               </button>
             </div>
-
-            {/* Content */}
+            
             <form onSubmit={handleSubmit} className="px-8 py-6 space-y-6">
-              {/* Alerts */}
               {error && (
                 <div className="flex items-center gap-3 bg-red-50 border border-red-200 rounded-lg p-4">
                   <AlertCircle size={20} className="text-red-600" />
@@ -112,37 +114,45 @@ const TouristEditModal = ({ tourist, isOpen, onClose, onUpdate }) => {
                 </div>
               )}
 
-              {/* Profile Picture */}
               <div className="flex flex-col items-center gap-4">
-                {formData.picture instanceof File ? (
-                  <img
-                    src={URL.createObjectURL(formData.picture)}
-                    alt="preview"
-                    className="w-32 h-32 rounded-2xl object-cover border-2 border-[#37101A]/10"
-                  />
-                ) : tourist.picture ? (
-                  <img
-                    src={`${import.meta.env.VITE_API_URL}/images/${tourist.picture}`}
-                    alt={tourist.name}
-                    className="w-32 h-32 rounded-2xl object-cover border-2 border-[#37101A]/10"
-                  />
-                ) : (
-                  <div className="w-32 h-32 bg-[#37101A]/5 rounded-2xl flex items-center justify-center text-[#37101A] border-2 border-[#37101A]/10">
-                    <User size={50} />
+                <div 
+                  className="relative group cursor-pointer" 
+                  onClick={handlePictureClick}
+                >
+                  {formData.picture instanceof File ? (
+                    <img
+                      src={URL.createObjectURL(formData.picture)}
+                      alt="preview"
+                      className="w-32 h-32 rounded-2xl object-cover border-2 border-[#37101A]/10"
+                    />
+                  ) : tourist.picture ? (
+                    <img
+                      src={`http://localhost:4000/images/${tourist.picture}`}
+                      alt={tourist.name}
+                      className="w-32 h-32 rounded-2xl object-cover border-2 border-[#37101A]/10"
+                    />
+                  ) : (
+                    <div className="w-32 h-32 bg-[#37101A]/5 rounded-2xl flex items-center justify-center text-[#37101A] border-2 border-[#37101A]/10">
+                      <User size={50} />
+                    </div>
+                  )}
+                  
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 rounded-2xl flex items-center justify-center transition-all">
+                    <Camera className="text-white opacity-90" size={30} />
                   </div>
-                )}
+                </div>
+
                 <input
+                  ref={fileInputRef}
                   type="file"
                   name="picture"
                   accept="image/*"
                   onChange={handleChange}
-                  className="block text-sm text-slate-500"
+                  className="hidden"
                 />
               </div>
 
-              {/* Form Fields */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Name */}
                 <div>
                   <label className="block text-sm font-bold text-slate-700 mb-2">ชื่อ</label>
                   <input
@@ -155,7 +165,6 @@ const TouristEditModal = ({ tourist, isOpen, onClose, onUpdate }) => {
                   />
                 </div>
 
-                {/* Email */}
                 <div>
                   <label className="block text-sm font-bold text-slate-700 mb-2">อีเมล</label>
                   <input
@@ -168,7 +177,6 @@ const TouristEditModal = ({ tourist, isOpen, onClose, onUpdate }) => {
                   />
                 </div>
 
-                {/* Phone */}
                 <div className="md:col-span-2">
                   <label className="block text-sm font-bold text-slate-700 mb-2">เบอร์โทรศัพท์</label>
                   <input
@@ -182,7 +190,6 @@ const TouristEditModal = ({ tourist, isOpen, onClose, onUpdate }) => {
               </div>
             </form>
 
-            {/* Footer */}
             <div className="border-t border-slate-200 px-8 py-4 flex justify-end gap-3 bg-slate-50">
               <button
                 onClick={onClose}
