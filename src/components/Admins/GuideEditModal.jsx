@@ -55,7 +55,7 @@ const GuideEditModal = ({ guide, isOpen, onClose, onUpdate }) => {
         form.append("picture", formData.picture);
       }
 
-      await axios.put(`http://localhost:4000/guides/${guide.id}`, form, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/guides/${guide.id}`, form, {
         headers: { 
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data"
@@ -131,7 +131,7 @@ const GuideEditModal = ({ guide, isOpen, onClose, onUpdate }) => {
                     />
                   ) : guide.picture ? (
                     <img
-                      src={`http://localhost:4000/images/${guide.picture}`}
+                      src={`${import.meta.env.VITE_API_URL}/images/${guide.picture}`}
                       alt={guide.name}
                       className="w-32 h-32 rounded-2xl object-cover border-2 border-[#37101A]/10"
                     />

@@ -53,7 +53,7 @@ const TripEditModal = ({ trip, isOpen, onClose, onUpdate }) => {
         form.append("picture", formData.picture);
       }
 
-      await axios.put(`http://localhost:4000/trips/${trip.id}`, form, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/trips/${trip.id}`, form, {
         headers: { 
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data"
@@ -128,7 +128,7 @@ const TripEditModal = ({ trip, isOpen, onClose, onUpdate }) => {
                     />
                   ) : trip.picture ? (
                     <img
-                      src={`http://localhost:4000/images/${trip.picture}`}
+                      src={`${import.meta.env.VITE_API_URL}/images/${trip.picture}`}
                       alt={trip.name}
                       className="w-48 h-32 rounded-2xl object-cover border-2 border-slate-200 shadow-sm"
                     />
