@@ -25,7 +25,7 @@ const EditTouristProfile = () => {
     const fetchTourist = async () => {
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_API_URL}/tourists/${id}`
+          `${import.meta.env.VITE_API_URL}/tourists/${id}`,
         );
         const data = res.data.data;
 
@@ -61,6 +61,7 @@ const EditTouristProfile = () => {
     e.preventDefault();
 
     const trimmedName = form.name.trim();
+    const email = form.email.trim().toLowerCase();
 
     if (trimmedName.length < 2 || trimmedName.length > 100) {
       alert("ชื่อควรมีความยาวระหว่าง 2 - 100 ตัวอักษร");
@@ -69,6 +70,12 @@ const EditTouristProfile = () => {
 
     if (!/^[A-Za-zก-ฮะ-์\s]+$/.test(trimmedName)) {
       alert("ชื่อห้ามมีตัวเลขหรืออักขระพิเศษ");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("กรุณากรอกอีเมลให้ถูกต้อง");
       return;
     }
 
@@ -83,7 +90,7 @@ const EditTouristProfile = () => {
       const formData = new FormData();
 
       formData.append("name", trimmedName);
-      formData.append("email", form.email);
+      formData.append("email", email);
       formData.append("tel", form.tel);
 
       if (form.picture) {
@@ -97,7 +104,7 @@ const EditTouristProfile = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       navigate(`/tourist/${id}`);
@@ -168,7 +175,7 @@ const EditTouristProfile = () => {
                 icon="fa-envelope"
                 type="email"
                 value={form.email}
-                onChange={(v) => setForm({ ...form, email: v })}
+                onChange={(v) => setForm({ ...form, email: v.trimStart() })}
                 placeholder="email@example.com"
               />
 
@@ -204,6 +211,7 @@ const InputGroup = ({
 }) => {
   const isTel = label === "เบอร์โทรศัพท์";
   const isName = label === "ชื่อ-นามสกุล";
+  const isEmail = label === "อีเมล";
 
   const handleChange = (e) => {
     let val = e.target.value;
@@ -213,9 +221,8 @@ const InputGroup = ({
       if (val.length > 10) return;
     }
 
-    if (isName) {
-      if (val.length > 100) return;
-    }
+    if (isName && val.length > 100) return;
+    if (isEmail && val.length > 100) return;
 
     onChange(val);
   };
@@ -246,9 +253,7 @@ const InputGroup = ({
       </div>
 
       {isTel && value.length > 0 && value.length !== 10 && (
-        <p className="text-xs text-rose-500 px-1">
-          เบอร์โทรต้องมี 10 หลัก
-        </p>
+        <p className="text-xs text-rose-500 px-1">เบอร์โทรต้องมี 10 หลัก</p>
       )}
 
       {isName && value.trim().length > 0 && value.trim().length < 2 && (
@@ -256,6 +261,12 @@ const InputGroup = ({
           ชื่อต้องมีอย่างน้อย 2 ตัวอักษร
         </p>
       )}
+
+      {isEmail &&
+        value.length > 0 &&
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) && (
+          <p className="text-xs text-rose-500 px-1">รูปแบบอีเมลไม่ถูกต้อง</p>
+        )}
     </div>
   );
 };

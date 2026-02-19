@@ -67,6 +67,7 @@ const EditGuideProfile = () => {
     e.preventDefault();
 
     const trimmedName = form.name.trim();
+    const email = form.email.trim().toLowerCase();
 
     if (trimmedName.length < 2 || trimmedName.length > 100) {
       alert("ชื่อควรมีความยาวระหว่าง 2 - 100 ตัวอักษร");
@@ -75,6 +76,12 @@ const EditGuideProfile = () => {
 
     if (!/^[A-Za-zก-ฮะ-์\s]+$/.test(trimmedName)) {
       alert("ชื่อห้ามมีตัวเลขหรืออักขระพิเศษ");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("กรุณากรอกอีเมลให้ถูกต้อง");
       return;
     }
 
@@ -88,7 +95,7 @@ const EditGuideProfile = () => {
 
       const formData = new FormData();
       formData.append("name", trimmedName);
-      formData.append("email", form.email);
+      formData.append("email", email);
       formData.append("tel", form.tel);
       formData.append("language", form.language);
       formData.append("experience", form.experience);
@@ -177,7 +184,7 @@ const EditGuideProfile = () => {
                 icon="fa-envelope"
                 type="email"
                 value={form.email}
-                onChange={(v) => setForm({ ...form, email: v })}
+                onChange={(v) => setForm({ ...form, email: v.trimStart() })}
                 placeholder="email@example.com"
               />
 
@@ -196,7 +203,7 @@ const EditGuideProfile = () => {
                 onChange={(v) => setForm({ ...form, experience: v })}
                 placeholder="เช่น 3 ปี"
               />
-              
+
               <div className="flex items-center justify-between bg-gray-50 border border-gray-100 rounded-xl px-4 py-3">
                 <span className="text-sm font-bold">สถานะการให้บริการ</span>
                 <button
@@ -245,6 +252,7 @@ const InputGroup = ({
 }) => {
   const isTel = label === "เบอร์โทรศัพท์";
   const isName = label === "ชื่อ-นามสกุล";
+  const isEmail = label === "อีเมล";
 
   const handleChange = (e) => {
     let val = e.target.value;
@@ -255,6 +263,7 @@ const InputGroup = ({
     }
 
     if (isName && val.length > 100) return;
+    if (isEmail && val.length > 100) return;
 
     onChange(val);
   };
@@ -293,6 +302,12 @@ const InputGroup = ({
           ชื่อต้องมีอย่างน้อย 2 ตัวอักษร
         </p>
       )}
+
+      {isEmail &&
+        value.length > 0 &&
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) && (
+          <p className="text-xs text-rose-500 px-1">รูปแบบอีเมลไม่ถูกต้อง</p>
+        )}
     </div>
   );
 };
