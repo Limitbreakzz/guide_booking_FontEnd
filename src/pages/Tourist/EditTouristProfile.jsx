@@ -61,7 +61,7 @@ const EditTouristProfile = () => {
     e.preventDefault();
 
     const trimmedName = form.name.trim();
-    const email = form.email.trim().toLowerCase();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (trimmedName.length < 2 || trimmedName.length > 100) {
       alert("ชื่อควรมีความยาวระหว่าง 2 - 100 ตัวอักษร");
@@ -73,8 +73,7 @@ const EditTouristProfile = () => {
       return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(form.email)) {
       alert("กรุณากรอกอีเมลให้ถูกต้อง");
       return;
     }
@@ -90,7 +89,7 @@ const EditTouristProfile = () => {
       const formData = new FormData();
 
       formData.append("name", trimmedName);
-      formData.append("email", email);
+      formData.append("email", form.email);
       formData.append("tel", form.tel);
 
       if (form.picture) {
