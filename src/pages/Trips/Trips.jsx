@@ -22,7 +22,7 @@ const Trips = () => {
 
       const res = await axios.get(url);
       setTrips(res.data.data);
-      setVisibleCount(4); 
+      setVisibleCount(4);
     } catch (err) {
       console.error(err);
       setTrips([]);
@@ -79,7 +79,14 @@ const Trips = () => {
 
         <div className="flex justify-between items-center mb-8 px-2">
           <h2 className="text-base font-medium text-gray-600">
-            แสดง <span className="text-[#37101A] font-bold">{Math.min(visibleCount, trips.length)}</span> จาก <span className="text-[#FFC1CC] font-bold">{trips.length} สถานที่</span>
+            แสดง{" "}
+            <span className="text-[#37101A] font-bold">
+              {Math.min(visibleCount, trips.length)}
+            </span>{" "}
+            จาก{" "}
+            <span className="text-[#FFC1CC] font-bold">
+              {trips.length} สถานที่
+            </span>
           </h2>
         </div>
 
@@ -113,8 +120,12 @@ const Trips = () => {
                     <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-black text-[#37101A] shadow-sm">
                       {trip.province?.name}
                     </div>
-                    <div className={`absolute top-4 right-4 backdrop-blur px-3 py-1 rounded-full text-[10px] font-black shadow-sm flex items-center gap-1.5 ${trip.isActive !== false ? "bg-green-500/80 text-white" : "bg-red-500/80 text-white"}`}>
-                      <span className={`w-1.5 h-1.5 rounded-full bg-white ${trip.isActive !== false ? "animate-pulse" : ""}`}></span>
+                    <div
+                      className={`absolute top-4 right-4 backdrop-blur px-3 py-1 rounded-full text-[10px] font-black shadow-sm flex items-center gap-1.5 ${trip.isActive !== false ? "bg-green-500/80 text-white" : "bg-red-500/80 text-white"}`}
+                    >
+                      <span
+                        className={`w-1.5 h-1.5 rounded-full bg-white ${trip.isActive !== false ? "animate-pulse" : ""}`}
+                      ></span>
                       {trip.isActive !== false ? "เปิดจอง" : "ปิดการจอง"}
                     </div>
                   </div>
@@ -122,14 +133,20 @@ const Trips = () => {
                   <div className="flex-1 p-6 md:p-6 flex flex-col justify-between">
                     <div className="flex justify-between items-start">
                       <div className="min-w-0 pr-4">
-                        <h3 className="text-2xl font-bold text-[#37101A] truncate mb-1">{trip.name}</h3>
+                        <h3 className="text-2xl font-bold text-[#37101A] truncate mb-1">
+                          {trip.name}
+                        </h3>
                         <div className="flex items-center gap-2 text-gray-500 text-[14px] mb-3">
                           <i className="fa-solid fa-newspaper text-[#37101A]"></i>
-                          <span className="truncate">{trip.description || "ไม่มีคำอธิบาย"}</span>
+                          <span className="block min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">
+                            {trip.description || "ไม่มีคำอธิบาย"}
+                          </span>
                         </div>
                       </div>
                       <div className="text-right flex-shrink-0">
-                        <p className="text-[14px] text-gray-400 font-base uppercase">ราคาประมาณ</p>
+                        <p className="text-[14px] text-gray-400 font-base uppercase">
+                          ราคาประมาณ
+                        </p>
                         <p className="text-2xl font-black text-[#FFC1CC]">
                           {trip.price ? trip.price.toLocaleString() : "0"}{" "}
                           <span className="text-md font-bold">บาท</span>
@@ -143,7 +160,9 @@ const Trips = () => {
                         disabled={trip.isActive === false}
                         className={`flex-1 py-4 font-medium rounded-lg transition-all text-md ${trip.isActive !== false ? "bg-[#FFC1CC]/40 text-[#37101A] hover:bg-[#FFC1CC]" : "bg-gray-100 text-gray-400 cursor-not-allowed"}`}
                       >
-                        {trip.isActive !== false ? "รายละเอียด / จองทริป" : "ไม่สามารถจองได้"}
+                        {trip.isActive !== false
+                          ? "รายละเอียด / จองทริป"
+                          : "ไม่สามารถจองได้"}
                       </button>
                     </div>
                   </div>
