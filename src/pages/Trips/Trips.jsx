@@ -138,7 +138,7 @@ const Trips = () => {
                         </h3>
                         <div className="flex items-center gap-2 text-gray-500 text-[14px] mb-3 min-w-0">
                           <i className="fa-solid fa-newspaper text-[#37101A] flex-shrink-0"></i>
-                          <span className="block w-full overflow-hidden text-ellipsis whitespace-nowrap">
+                          <span className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
                             {trip.description || "ไม่มีคำอธิบาย"}
                           </span>
                         </div>
