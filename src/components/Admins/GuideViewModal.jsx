@@ -25,7 +25,9 @@ const GuideViewModal = ({ guide, isOpen, onClose, onUpdate }) => {
           >
             {/* Header */}
             <div className="sticky top-0 bg-white border-b border-slate-200 px-8 py-6 flex items-center justify-between">
-              <h2 className="text-2xl font-black text-[#37101A]">รายละเอียดไกด์ทัวร์</h2>
+              <h2 className="text-2xl font-black text-[#37101A]">
+                รายละเอียดไกด์ทัวร์
+              </h2>
               <button
                 onClick={onClose}
                 className="p-2 hover:bg-slate-100 rounded-lg transition-all"
@@ -50,9 +52,32 @@ const GuideViewModal = ({ guide, isOpen, onClose, onUpdate }) => {
                   </div>
                 )}
                 <div>
-                  <h3 className="text-2xl font-black text-[#37101A]">{guide.name}</h3>
-                  <p className="text-sm text-slate-500 font-semibold">Certified Tour Guide</p>
+                  <h3 className="text-2xl font-black text-[#37101A]">
+                    {guide.name}
+                  </h3>
+                  <p className="text-sm text-slate-500 font-semibold">
+                    Certified Tour Guide
+                  </p>
                 </div>
+              </div>
+
+              <div className="bg-purple-50 rounded-xl p-4 border border-purple-200">
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
+                  ประสบการณ์
+                </p>
+                <p className="text-base text-slate-700 leading-relaxed">
+                  {guide?.experience || "—"}
+                </p>
+              </div>
+
+              {/* Language */}
+              <div className="bg-amber-50 rounded-xl p-4 border border-amber-200">
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
+                  ภาษาที่ถนัด
+                </p>
+                <p className="text-base text-slate-700 leading-relaxed">
+                  {guide?.language || "—"}
+                </p>
               </div>
 
               {/* Info Grid */}
@@ -61,32 +86,44 @@ const GuideViewModal = ({ guide, isOpen, onClose, onUpdate }) => {
                 <div className="bg-slate-50 rounded-xl p-4 border border-slate-200">
                   <div className="flex items-center gap-2 mb-2">
                     <Mail size={16} className="text-[#37101A]" />
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">อีเมล</p>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                      อีเมล
+                    </p>
                   </div>
-                  <p className="text-base font-semibold text-[#37101A]">{guide.email}</p>
+                  <p className="text-base font-semibold text-[#37101A]">
+                    {guide.email}
+                  </p>
                 </div>
 
                 {/* Phone */}
                 <div className="bg-slate-50 rounded-xl p-4 border border-slate-200">
                   <div className="flex items-center gap-2 mb-2">
                     <Phone size={16} className="text-[#37101A]" />
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">เบอร์โทร</p>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                      เบอร์โทร
+                    </p>
                   </div>
-                  <p className="text-base font-semibold text-[#37101A]">{guide.tel || "—"}</p>
+                  <p className="text-base font-semibold text-[#37101A]">
+                    {guide.tel || "—"}
+                  </p>
                 </div>
 
                 {/* Status */}
                 <div className="bg-slate-50 rounded-xl p-4 border border-slate-200">
                   <div className="flex items-center gap-2 mb-2">
                     <Shield size={16} className="text-[#37101A]" />
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">สถานะ</p>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                      สถานะ
+                    </p>
                   </div>
                   <div className="flex items-center">
-                    <span className={`px-3 py-1.5 rounded-md text-xs font-bold uppercase tracking-wider border ${
-                      guide.status
-                        ? "bg-emerald-50 text-emerald-600 border-emerald-100"
-                        : "bg-rose-50 text-rose-600 border-rose-100"
-                    }`}>
+                    <span
+                      className={`px-3 py-1.5 rounded-md text-xs font-bold uppercase tracking-wider border ${
+                        guide.status
+                          ? "bg-emerald-50 text-emerald-600 border-emerald-100"
+                          : "bg-rose-50 text-rose-600 border-rose-100"
+                      }`}
+                    >
                       {guide.status ? "● พร้อมให้บริการ" : "○ ไม่พร้อม"}
                     </span>
                   </div>
@@ -96,8 +133,12 @@ const GuideViewModal = ({ guide, isOpen, onClose, onUpdate }) => {
               {/* Description */}
               {guide.description && (
                 <div className="bg-blue-50 rounded-xl p-4 border border-blue-200">
-                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">รายละเอียด</p>
-                  <p className="text-base text-slate-700 leading-relaxed">{guide.description}</p>
+                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
+                    รายละเอียด
+                  </p>
+                  <p className="text-base text-slate-700 leading-relaxed">
+                    {guide.description}
+                  </p>
                 </div>
               )}
             </div>

@@ -1,6 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Mail, Phone, MapPin, Shield, AlertCircle, CheckCircle, Camera } from "lucide-react";
+import {
+  X,
+  Mail,
+  Phone,
+  MapPin,
+  Shield,
+  AlertCircle,
+  CheckCircle,
+  Camera,
+} from "lucide-react";
 import axios from "axios";
 
 const GuideEditModal = ({ guide, isOpen, onClose, onUpdate }) => {
@@ -24,14 +33,14 @@ const GuideEditModal = ({ guide, isOpen, onClose, onUpdate }) => {
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
     if (type === "file") {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        [name]: files ? files[0] : null
+        [name]: files ? files[0] : null,
       }));
     } else {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        [name]: type === "checkbox" ? checked : value
+        [name]: type === "checkbox" ? checked : value,
       }));
     }
   };
@@ -47,20 +56,24 @@ const GuideEditModal = ({ guide, isOpen, onClose, onUpdate }) => {
       form.append("name", formData.name);
       form.append("email", formData.email);
       form.append("tel", formData.tel);
-      form.append("experience", formData.experience);
-      form.append("language", formData.language);
-      form.append("description", formData.description);
+      form.append("experience", formData.experience ?? "");
+      form.append("language", formData.language ?? "");
+      form.append("description", formData.description ?? "");
       form.append("status", formData.status);
       if (formData.picture instanceof File) {
         form.append("picture", formData.picture);
       }
 
-      await axios.put(`${import.meta.env.VITE_API_URL}/guides/${guide.id}`, form, {
-        headers: { 
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data"
-        }
-      });
+      await axios.put(
+        `${import.meta.env.VITE_API_URL}/guides/${guide.id}`,
+        form,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
       setSuccess("อัปเดตข้อมูลสำเร็จ!");
       setTimeout(() => {
         onUpdate();
@@ -93,7 +106,9 @@ const GuideEditModal = ({ guide, isOpen, onClose, onUpdate }) => {
             className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white rounded-2xl shadow-2xl z-50 max-h-[90vh] overflow-y-auto"
           >
             <div className="sticky top-0 bg-white border-b border-slate-200 px-8 py-6 flex items-center justify-between">
-              <h2 className="text-2xl font-black text-[#37101A]">แก้ไขข้อมูลไกด์ทัวร์</h2>
+              <h2 className="text-2xl font-black text-[#37101A]">
+                แก้ไขข้อมูลไกด์ทัวร์
+              </h2>
               <button
                 onClick={onClose}
                 className="p-2 hover:bg-slate-100 rounded-lg transition-all"
@@ -113,7 +128,9 @@ const GuideEditModal = ({ guide, isOpen, onClose, onUpdate }) => {
               {success && (
                 <div className="flex items-center gap-3 bg-emerald-50 border border-emerald-200 rounded-lg p-4">
                   <CheckCircle size={20} className="text-emerald-600" />
-                  <p className="text-sm font-semibold text-emerald-700">{success}</p>
+                  <p className="text-sm font-semibold text-emerald-700">
+                    {success}
+                  </p>
                 </div>
               )}
               <div
@@ -140,9 +157,12 @@ const GuideEditModal = ({ guide, isOpen, onClose, onUpdate }) => {
                       <Shield size={50} />
                     </div>
                   )}
-                  
+
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 rounded-2xl flex items-center justify-center transition-all">
-                    <Camera className="text-white opacity-80 group-hover:opacity-100" size={32} />
+                    <Camera
+                      className="text-white opacity-80 group-hover:opacity-100"
+                      size={32}
+                    />
                   </div>
                 </div>
 
@@ -158,7 +178,9 @@ const GuideEditModal = ({ guide, isOpen, onClose, onUpdate }) => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">ชื่อ</label>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">
+                    ชื่อ
+                  </label>
                   <input
                     type="text"
                     name="name"
@@ -170,7 +192,9 @@ const GuideEditModal = ({ guide, isOpen, onClose, onUpdate }) => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">อีเมล</label>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">
+                    อีเมล
+                  </label>
                   <input
                     type="email"
                     name="email"
@@ -182,7 +206,9 @@ const GuideEditModal = ({ guide, isOpen, onClose, onUpdate }) => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">เบอร์โทรศัพท์</label>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">
+                    เบอร์โทรศัพท์
+                  </label>
                   <input
                     type="tel"
                     name="tel"
@@ -194,7 +220,23 @@ const GuideEditModal = ({ guide, isOpen, onClose, onUpdate }) => {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2">ประสบการณ์</label>
+                <label className="block text-sm font-bold text-slate-700 mb-2">
+                  ภาษา
+                </label>
+                <textarea
+                  name="language"
+                  value={formData.language || ""}
+                  onChange={handleChange}
+                  rows="4"
+                  className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#37101A]/20 focus:border-[#37101A]"
+                  placeholder="ระบุภาษาที่สื่อสารได้..."
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-slate-700 mb-2">
+                  ประสบการณ์
+                </label>
                 <textarea
                   name="experience"
                   value={formData.experience || ""}
@@ -213,7 +255,9 @@ const GuideEditModal = ({ guide, isOpen, onClose, onUpdate }) => {
                   onChange={handleChange}
                   className="w-5 h-5 accent-[#37101A]"
                 />
-                <label className="text-sm font-semibold text-slate-700">พร้อมให้บริการ</label>
+                <label className="text-sm font-semibold text-slate-700">
+                  พร้อมให้บริการ
+                </label>
               </div>
             </form>
 

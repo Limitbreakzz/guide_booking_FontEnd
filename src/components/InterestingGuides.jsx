@@ -113,7 +113,7 @@ const InterestingGuides = () => {
                       <i className="fa-solid fa-briefcase text-[#FFC1CC]"></i>
                     </div>
                     <span className="truncate block">
-                      ประสบการณ์ {guide.experience || "ไม่มีข้อมูล"}
+                      {guide.experience || "ไม่มีข้อมูล"}
                     </span>
                   </div>
                 </div>
