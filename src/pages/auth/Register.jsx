@@ -19,9 +19,15 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const trimmedName = form.name.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (trimmedName.length < 2 || trimmedName.length > 100) {
       alert("ชื่อควรมีความยาวระหว่าง 2 - 100 ตัวอักษร");
+      return;
+    }
+
+    if (!emailRegex.test(form.email)) {
+      alert("กรุณากรอกอีเมลให้ถูกต้อง");
       return;
     }
 
@@ -112,7 +118,10 @@ const Register = () => {
             <input
               type="email"
               placeholder="name@example.com"
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              value={form.email}
+              onChange={(e) =>
+                setForm({ ...form, email: e.target.value.trim() })
+              }
               className="w-full bg-white border border-gray-200 px-4 py-3.5 rounded-lg outline-none focus:border-[#FFC1CC] focus:ring-1 focus:ring-[#FFC1CC] transition-all text-[#37101A] placeholder:text-gray-300 shadow-sm"
               required
             />
