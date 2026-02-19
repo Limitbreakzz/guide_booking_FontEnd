@@ -24,10 +24,16 @@ const TouristEditModal = ({ tourist, isOpen, onClose, onUpdate }) => {
   };
 
   useEffect(() => {
-    if (tourist) {
-      setFormData(tourist);
-    }
-  }, [tourist]);
+  if (tourist) {
+    setFormData({
+      ...tourist,
+      name: tourist.name ?? "",
+      email: tourist.email ?? "",
+      tel: tourist.tel ?? "",
+      picture: tourist.picture ?? null,
+    });
+  }
+}, [tourist]);
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -204,6 +210,7 @@ const TouristEditModal = ({ tourist, isOpen, onClose, onUpdate }) => {
                     type="tel"
                     name="tel"
                     value={formData.tel || ""}
+                    placeholder="-"
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#37101A]/20 focus:border-[#37101A]"
                   />
