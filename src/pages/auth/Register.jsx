@@ -25,14 +25,19 @@ const Register = () => {
       return;
     }
 
-    if (!/^0[0-9]{9}$/.test(form.tel)) {
-      alert("กรุณากรอกเบอร์โทรให้ถูกต้อง (10 หลัก และขึ้นต้นด้วย 0)");
-      return;
+    if (form.tel) {
+      if (!/^0[0-9]{9}$/.test(form.tel)) {
+        alert("กรุณากรอกเบอร์โทรให้ถูกต้อง (10 หลัก และขึ้นต้นด้วย 0)");
+        return;
+      }
     }
 
     setLoading(true);
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, { ...form, name: trimmedName });
+      await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, {
+        ...form,
+        name: trimmedName,
+      });
       alert("สมัครสมาชิกสำเร็จ");
       navigate("/login");
     } catch (err) {
